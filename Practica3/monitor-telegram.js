@@ -1,10 +1,10 @@
 const axios = require('axios');
 
-// CONFIGURACIÓN CON TUS DATOS REALES
+
 const CONFIG = {
     urlServicio: 'http://localhost:3000/temperatura',
-    intervalo: 10000, // 10 segundos para pruebas (luego cambia a 30000)
-    umbralAlto: 25,   // Bajo para pruebas fáciles (cambia a 39 después)
+    intervalo: 10000, 
+    umbralAlto: 25,   
     intentosConsecutivos: 3,
     telegram: {
         botToken: '8387762474:AAGutkRrgMuA_IAsclQMp7dA4FPG9kkGO_s',
@@ -41,9 +41,6 @@ Se han detectado *${CONFIG.intentosConsecutivos} temperaturas consecutivas* por 
     }
 }
 
-/**
- * Función para obtener temperatura del servicio web
- */
 async function obtenerTemperatura() {
     try {
         const respuesta = await axios.get(CONFIG.urlServicio);
@@ -54,9 +51,6 @@ async function obtenerTemperatura() {
     }
 }
 
-/**
- * Función principal de monitoreo
- */
 async function monitorearTemperatura() {
     console.log(`\n🔍 [${new Date().toLocaleTimeString()}] Monitoreando temperatura...`);
     
@@ -65,7 +59,7 @@ async function monitorearTemperatura() {
     if (temperatura !== null) {
         console.log(`  Temperatura actual: ${temperatura}°C`);
         
-        // Verificar si está arriba del umbral
+       
         if (temperatura > CONFIG.umbralAlto) {
             contadorAlto++;
             console.log(`  Temperatura alta #${contadorAlto} consecutiva`);
@@ -74,16 +68,16 @@ async function monitorearTemperatura() {
             if (contadorAlto >= CONFIG.intentosConsecutivos) {
                 console.log(' ENVIANDO ALERTA TELEGRAM - 3 temperaturas altas consecutivas!');
                 await enviarAlertaTelegram(temperatura);
-                contadorAlto = 0; // Reiniciar contador después de alerta
+                contadorAlto = 0;
             }
         } else {
             console.log(' Temperatura dentro del rango normal');
-            contadorAlto = 0; // Reiniciar contador
+            contadorAlto = 0;
         }
     }
 }
 
-// Información de inicio
+
 console.log(' Iniciando monitor de temperatura con Telegram...');
 console.log(' Configuración:');
 console.log(`   - Servicio: ${CONFIG.urlServicio}`);
@@ -93,6 +87,7 @@ console.log(`   - Alertas después de: ${CONFIG.intentosConsecutivos} lecturas`)
 console.log(`   - Chat ID: ${CONFIG.telegram.chatId}`);
 console.log(' Para pruebas: Umbral bajo (25°C) para alertas rápidas\n');
 
-// Iniciar monitoreo
+
 setInterval(monitorearTemperatura, CONFIG.intervalo);
-monitorearTemperatura(); // Ejecutar inmediatamente al inicio
+
+monitorearTemperatura(); 
