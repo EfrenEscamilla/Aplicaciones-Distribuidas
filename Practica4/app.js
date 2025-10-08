@@ -5,15 +5,15 @@ const { v4: uuidv4 } = require('uuid');
 const app = express();
 const PORT = 3000;
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// Almacenamiento en memoria
+
 let tareas = [];
 let productos = [];
 
-// ===== EJERCICIO 1: Servicio de Saludo Básico =====
+//EJERCICIO 1: Servicio de Saludo Básico 
 app.post('/saludo', (req, res) => {
     const { nombre } = req.body;
     
@@ -24,7 +24,7 @@ app.post('/saludo', (req, res) => {
     res.json({ mensaje: `Hola, ${nombre}` });
 });
 
-// ===== EJERCICIO 2: Calculadora =====
+// EJERCICIO 2: Calculadora 
 app.post('/calcular', (req, res) => {
     const { a, b, operacion } = req.body;
     
@@ -56,7 +56,7 @@ app.post('/calcular', (req, res) => {
     res.json({ resultado });
 });
 
-// ===== EJERCICIO 3: Gestor de Tareas =====
+// EJERCICIO 3: Gestor de Tareas
 app.post('/tareas', (req, res) => {
     const { id, titulo, completada } = req.body;
     
@@ -64,7 +64,7 @@ app.post('/tareas', (req, res) => {
         return res.status(400).json({ error: 'Los campos id y título son requeridos' });
     }
     
-    // Verificar si ya existe una tarea con ese ID
+    
     if (tareas.find(t => t.id === id)) {
         return res.status(400).json({ error: 'Ya existe una tarea con ese ID' });
     }
@@ -108,7 +108,7 @@ app.delete('/tareas/:id', (req, res) => {
     res.status(204).send();
 });
 
-// ===== EJERCICIO 4: Validador de Contraseñas =====
+// EJERCICIO 4: Validador de Contraseñas 
 app.post('/validar-password', (req, res) => {
     const { password } = req.body;
     const errores = [];
@@ -135,7 +135,7 @@ app.post('/validar-password', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 5: Conversor de Temperatura =====
+// EJERCICIO 5: Conversor de Temperatura 
 app.post('/convertir-temperatura', (req, res) => {
     const { valor, desde, hacia } = req.body;
     
@@ -163,7 +163,7 @@ app.post('/convertir-temperatura', (req, res) => {
             break;
     }
     
-    // Conversión desde Celsius a la escala destino
+    
     let valorConvertido;
     
     switch (hacia) {
@@ -186,7 +186,7 @@ app.post('/convertir-temperatura', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 6: Buscador en Array =====
+//EJERCICIO 6: Buscador en Array 
 app.post('/buscar', (req, res) => {
     const { array, elemento } = req.body;
     
@@ -205,7 +205,7 @@ app.post('/buscar', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 7: Contador de Palabras =====
+// EJERCICIO 7: Contador de Palabras 
 app.post('/contar-palabras', (req, res) => {
     const { texto } = req.body;
     
@@ -223,7 +223,7 @@ app.post('/contar-palabras', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 8: Generador de Perfiles =====
+// EJERCICIO 8: Generador de Perfiles
 app.post('/generar-perfil', (req, res) => {
     const { nombre, edad, intereses } = req.body;
     
@@ -246,7 +246,7 @@ app.post('/generar-perfil', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 9: Sistema de Calificaciones =====
+// EJERCICIO 9: Sistema de Calificaciones 
 app.post('/calcular-promedio', (req, res) => {
     const { calificaciones } = req.body;
     
@@ -254,7 +254,7 @@ app.post('/calcular-promedio', (req, res) => {
         return res.status(400).json({ error: 'El campo calificaciones debe ser un array' });
     }
     
-    // Validar que todas las calificaciones sean números entre 0-10
+    
     for (let calificacion of calificaciones) {
         if (typeof calificacion !== 'number' || calificacion < 0 || calificacion > 10) {
             return res.status(400).json({ 
@@ -284,7 +284,7 @@ app.post('/calcular-promedio', (req, res) => {
     });
 });
 
-// ===== EJERCICIO 10: API de Productos =====
+//EJERCICIO 10: API de Productos 
 app.get('/productos', (req, res) => {
     const { categoria, precioMin, precioMax } = req.query;
     
@@ -333,7 +333,7 @@ app.post('/productos', (req, res) => {
     res.status(201).json(nuevoProducto);
 });
 
-// Ruta de prueba
+
 app.get('/', (req, res) => {
     res.json({ 
         mensaje: 'API de Aplicaciones Distribuidas funcionando',
@@ -352,7 +352,8 @@ app.get('/', (req, res) => {
     });
 });
 
-// Iniciar servidor
+
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+
 });
